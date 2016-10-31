@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>WebAudio.tokyo</title>
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://webaudio.tokyo/"/>
+  <updated>2016-10-31T14:27:26.000Z</updated>
+  <id>http://webaudio.tokyo/</id>
+  
+  <author>
+    <name>WebAudio.tokyo</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WebAudio.tokyo 公式ページ開設</title>
+    <link href="http://webaudio.tokyo/2016/10/31/introduction/"/>
+    <id>http://webaudio.tokyo/2016/10/31/introduction/</id>
+    <published>2016-10-31T14:14:03.000Z</published>
+    <updated>2016-10-31T14:27:26.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="WebAudio-tokyoの公式ページを開設しました"><a href="#WebAudio-tokyoの公式ページを開設しました" class="headerlink" title="WebAudio.tokyoの公式ページを開設しました"></a>WebAudio.tokyoの公式ページを開設しました</h2><p>WebAudio.tokyoはWeb Audio APIのための勉強会です。<br>Web Audio APIでの音楽作成から新しい使い道の研究まで、<br>作ったものやできることの共有ができる場を求めて始まりました。</p>
+<p>9月6日に第1回を迎えたばかりのコミュニティですが、<br>Web Audio界隈の活性化の一助になれたらと思います。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;WebAudio-tokyoの公式ページを開設しました&quot;&gt;&lt;a href=&quot;#WebAudio-tokyoの公式ページを開設しました&quot; class=&quot;headerlink&quot; title=&quot;WebAudio.tokyoの公式ページを開設しました&quot;&gt;&lt;/a&gt;WebAu
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
