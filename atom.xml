@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://webaudio.tokyo/"/>
-  <updated>2016-10-31T14:27:26.000Z</updated>
+  <updated>2016-12-10T16:09:35.000Z</updated>
   <id>https://webaudio.tokyo/</id>
   
   <author>
@@ -14,6 +14,51 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WebAudioの基本機能でエフェクターを作ってみる</title>
+    <link href="https://webaudio.tokyo/2016/12/10/webaudio-webmidi-advent-calendar/"/>
+    <id>https://webaudio.tokyo/2016/12/10/webaudio-webmidi-advent-calendar/</id>
+    <published>2016-12-10T14:03:51.000Z</published>
+    <updated>2016-12-10T16:09:35.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>この記事は<a href="http://qiita.com/advent-calendar/2016/webaudio" target="_blank" rel="external">WebAudio Web MIDI API Advent Calendar 2016</a>の10日目です。</p>
+<p>今回は<a href="https://webmusicdevelopers.appspot.com/codelabs/webaudio/index.html" target="_blank" rel="external">Web Audio API | Codelab</a>の内容を少しだけいじってエフェクターを作ってみたいと思います。<br>この半年ほどでWeb Audio APIの勉強会やハッカソン・ハンズオンなどに参加してきましたが、「音が鳴って楽しい！」「なんかいろいろできそう！」といったポジティブな意見を聞く反面、初心者には少し敷居が高い部分もあると感じています。<br>これは</p>
+<ul>
+<li>音楽の知識諸々が必要（楽器のことから音の波形とか信号制御といったことまで）</li>
+<li>ノードグラフがピンとこないと何を実装すればいいか見えてこない</li>
+</ul>
+<p>の2つが大きな原因であると思っています。<br>そこで、先のCodelabで作れるものから少しだけいじって、ノードグラフに何を足せば、音にどのような変化が出るのかといったことを実感してみます。</p>
+<h2 id="今回作るもの"><a href="#今回作るもの" class="headerlink" title="今回作るもの"></a>今回作るもの</h2><hr>
+<p>エフェクターと一言で言っても本当にいろいろ種類があるので、今回は</p>
+<ul>
+<li>Peak Filter</li>
+<li>Flanger</li>
+</ul>
+<p>の2種類のみを作っていきます。<br>この2つを選んだ理由としては、</p>
+<ul>
+<li>Peak Filterは<code>BiquadFilter</code>だけで簡単に実装できるのに、DJっぽいエフェクトができて楽しい</li>
+<li>FlangerはCodelabで実装するディレイを改造すれば作れる</li>
+</ul>
+<p>からです。<br>また、今回の内容は先日の<a href="https://meguro.es/" target="_blank" rel="external">Meguro.es</a>なる勉強会で発表したものの使い回しです。<br>その時はPeak Filterとは、Flangerとはなんぞや、という部分に焦点を当てたので、本記事ではその実装部分を見ていきます。<br>そのため、この2つのエフェクターが何であるかについては、<a href="https://speakerdeck.com/hirotan/party-night-with-webaudio-api" target="_blank" rel="external">当日の資料</a>を参考にしていただきたいです。</p>
+<h2 id="Peak-Filter"><a href="#Peak-Filter" class="headerlink" title="Peak Filter"></a>Peak Filter</h2><hr>
+<p>Peak FilterはWeb Audio APIの<code>BiquadFilter</code>を使うだけで実装できます。<br><code>BiquadFilter</code>は特定の周波数より大きい（小さい）部分をカットする、特定の周波数より大きい（小さい）部分を増幅させる、などの全8種類の機能がありますが、その中のピーキングフィルターを使います。<br>これは特定の周波数の部分を増幅させるフィルターです。<br>音源に対してフィルターのノードを1つつけるだけなので非常に単純です。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;body&gt;</div><div class="line">&lt;input type=&quot;range&quot; min=&quot;100&quot; max=&quot;10000&quot; id=&quot;freq&quot; size=&quot;10&quot; value=&quot;5000&quot; oninput=&quot;ChangeFrequency()&quot;/&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;script&gt;</div><div class="line">var audioctx = new AudioContext();</div><div class="line">var filter = audioctx.createBiquadFilter();</div><div class="line">var src = audioctx.createBufferSource();</div><div class="line">var buffer = null;</div><div class="line"></div><div class="line">LoadSample(audioctx, &quot;path/to/your/audio/file&quot;);</div><div class="line">src.buffer = buffer;</div><div class="line">src.connect(filter);</div><div class="line">filter.connect(audioctx.destination);</div><div class="line">src.start(0);</div><div class="line"></div><div class="line">function ChangeFrequency() &#123;</div><div class="line">  filter.gain.value = 50.0;</div><div class="line">  filter.frequency.value = parseFloat(document.getElementById(&quot;freq&quot;).value);</div><div class="line">&#125;</div><div class="line">document.onmouseup = function (event) &#123;</div><div class="line">  filter.gain.value = 0;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>LoadSampleは音楽ファイルを読み込むための関数ですが、この実装はCodelabを参照してください。<br>スライダーの部分は昨日紹介されていたWebAudio-Controlsを使うとそれっぽくなります。</p>
+<h2 id="Flanger"><a href="#Flanger" class="headerlink" title="Flanger"></a>Flanger</h2><hr>
+<p>Flangerの実装はCodelabで作った<a href="https://webmusicdevelopers.appspot.com/codelabs/webaudio/index.html?ja-jp#6" target="_blank" rel="external">ディレイを適用する</a>と<a href="https://webmusicdevelopers.appspot.com/codelabs/webaudio/index.html?ja-jp#4" target="_blank" rel="external">オシレータを揺らしてみる</a>の合わせ技となります。<br>再生部分やパラメーターの設定部分はそのまま使いまわせます。<br>以下のコードも重複している部分が多々ありますが、ノードグラフの部分は載せたかったのでご容赦ください。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">&lt;body&gt;</div><div class="line">&lt;table&gt;</div><div class="line">  &lt;tr&gt;&lt;td&gt;Bypass :&lt;/td&gt;&lt;td&gt;&lt;input id=&quot;bypass&quot; type=&quot;checkbox&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;</div><div class="line">  &lt;tr&gt;&lt;td&gt;LFO Freq : &lt;/td&gt;&lt;td&gt;&lt;input type=&quot;text&quot; size=&quot;10&quot; id=&quot;lfofreq&quot; value=&quot;5&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;</div><div class="line">  &lt;tr&gt;&lt;td&gt;Depth : &lt;/td&gt;&lt;td&gt;&lt;input type=&quot;text&quot; size=&quot;10&quot; id=&quot;depth&quot; value=&quot;0.5&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;</div><div class="line">  &lt;tr&gt;&lt;td&gt;Time : &lt;/td&gt;&lt;td&gt;&lt;input type=&quot;text&quot; size=&quot;8&quot; id=&quot;time&quot; value=&quot;0.005&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;</div><div class="line">  &lt;tr&gt;&lt;td&gt;Feedback : &lt;/td&gt;&lt;td&gt;&lt;input type=&quot;text&quot; size=&quot;8&quot; id=&quot;feedback&quot; value=&quot;0.4&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;</div><div class="line">  &lt;tr&gt;&lt;td&gt;Mix : &lt;/td&gt;&lt;td&gt;&lt;input type=&quot;text&quot; size=&quot;8&quot; id=&quot;mix&quot; value=&quot;0.4&quot;/&gt;&lt;/td&gt;&lt;/tr&gt;</div><div class="line">&lt;/table&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;script&gt;</div><div class="line">var audioctx = new AudioContext();</div><div class="line"></div><div class="line">var buffer = null;</div><div class="line">var src = audioctx.createBufferSource();</div><div class="line">var input = audioctx.createGain();</div><div class="line">var delay = audioctx.createDelay();</div><div class="line">var wetgain = audioctx.createGain();</div><div class="line">var drygain = audioctx.createGain();</div><div class="line">var feedback = audioctx.createGain();</div><div class="line">var lfo = audioctx.createOscillator();</div><div class="line">var depth = audioctx.createGain();</div><div class="line"></div><div class="line">input.connect(delay);</div><div class="line">input.connect(drygain);</div><div class="line">delay.connect(wetgain);</div><div class="line">delay.connect(feedback);</div><div class="line">feedback.connect(delay);</div><div class="line">wetgain.connect(filter);</div><div class="line">drygain.connect(filter);</div><div class="line">lfo.connect(depth);</div><div class="line">depth.connect(delay.delayTime);</div><div class="line"></div><div class="line">src.buffer = buffer;</div><div class="line">src.connect(input);</div><div class="line">src.start(0);</div><div class="line">lfo.start(0);</div><div class="line"></div><div class="line">document.onkeydown = function (event) &#123;</div><div class="line">  if (event.keyCode==70) &#123;</div><div class="line">    lfo.frequency.value = parseFloat(document.getElementById(&quot;lfofreq&quot;).value);</div><div class="line">    depthRate = parseFloat(document.getElementById(&quot;depth&quot;).value);</div><div class="line">    wetgain.gain.value = mix;</div><div class="line">    drygain.gain.value = 1 - mix;</div><div class="line">    depth.gain.value = delay.delayTime.value * depthRate;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">document.onkeyup = function (event) &#123;</div><div class="line">  if (event.keyCode==70) &#123;</div><div class="line">    wetgain.gain.value = 0;</div><div class="line">    drygain.gain.value = 1;</div><div class="line">    depth.gain.value = 0;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>flangerなのでfのキーを押したらエフェクトがかかるようになっています。<br><a href="https://webmusicdevelopers.appspot.com/codelabs/webaudio/index.html?ja-jp#4" target="_blank" rel="external">オシレータを揺らしてみる</a>ではオシレーターの<code>frequency</code>に<code>depth</code>を繋いでいたのですが、flangerではディレイノードの<code>delayTime</code>に繋いでいるのがポイントです。<br>ちなみに綺麗にパラメーターをセットするとジェット機のような音が音源に重なって聞こえるそうですが、どうやれば綺麗にかかるのかは勉強不足でわかりませんでした…</p>
+<h2 id="さいごに"><a href="#さいごに" class="headerlink" title="さいごに"></a>さいごに</h2><hr>
+<p>Web Audioちょっと触ったことがある人なら理解に苦しむところはないと思います。<br>音楽の知識がないと何やってるのかわかりにくいかもしれませんが、僕もコードを書きながら音がこんな風に変わるんだろうなぁと明確にわかっているわけではありません。<br>今回も実装よりもパラメーターの設定の方が時間使ったんじゃないかと思うくらいです。<br>簡単なものから書いてみて、実際にどんな効果がかかるのかを聞いてみて、Web Audioに興味を持ってもらえたらと思います。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;この記事は&lt;a href=&quot;http://qiita.com/advent-calendar/2016/webaudio&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;WebAudio Web MIDI API Advent Calendar 2016&lt;/
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>WebAudio.tokyo 公式ページ開設</title>
