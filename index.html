@@ -55,7 +55,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Søk"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://webaudio.tokyo"></form>
@@ -66,6 +66,60 @@
 
       <div class="outer">
         <section id="main">
+  
+    <article id="post-event-management-advent-calendar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/event-management-advent-calendar/" class="article-date">
+  <time datetime="2016-12-15T11:00:00.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/event-management-advent-calendar/">WebAudio界隈とWebAudio.tokyo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>この記事は<a href="http://qiita.com/advent-calendar/2016/event-management" target="_blank" rel="external">IT勉強会/コミュニティ運営 Advent Calendar 2016</a>の15日目です。</p>
+<p>WebAudio.tokyoは今年の9月に第1回を迎えたばかりの勉強会です。<br>今回はどういった思いでWebAudio.tokyoというコミュニティを作り、<br>今後どのようにWebAudio界隈と関わっていきたいかを書こうと思います。<br>始めたばかりの勉強会が他のコミュニティとどのように関わり、どういった助けを得ているかといった、<br>これから勉強会やってみようという人向けの話になります。</p>
+<h2 id="どのように始めたか"><a href="#どのように始めたか" class="headerlink" title="どのように始めたか"></a>どのように始めたか</h2><hr>
+<p>WebAudio.tokyoはWeb Audio APIのための勉強会です。<br>Web Audio APIとはブラウザ上で音声の信号処理を可能にするAPIで、<br><code>audio</code>タグとは違って音を鳴らすだけでなく、その場で音を生成したり音にエフェクトをかけたりといったことが可能です。<br>そのためWeb Audio APIの他にもWeb MIDI API, WebRTCなども組み合わせてシンセやエフェクターを作ろうといった活動は活発で、<br><a href="https://groups.google.com/forum/#!forum/web-music-developers-jp" target="_blank" rel="external">Web Music Developers JP</a>という大きなコミュニティもすでに存在します。</p>
+<p>そんな中で、Web Audio APIに特化して、Web Audio APIの新たな使い道を探っていきたいという気持ちで始めたのが、<br>このWebAudio.tokyoです。</p>
+<h2 id="WebAudio-tokyoとWeb-Music-Developers-JP"><a href="#WebAudio-tokyoとWeb-Music-Developers-JP" class="headerlink" title="WebAudio.tokyoとWeb Music Developers JP"></a>WebAudio.tokyoとWeb Music Developers JP</h2><hr>
+<p>WebAudio.tokyoのできる前、今年の7月に<a href="https://developers-jp.googleblog.com/2016/06/web-music-5.html" target="_blank" rel="external">Web Music ハッカソン #5</a>に参加しました。<br>これは先の<a href="https://groups.google.com/forum/#!forum/web-music-developers-jp" target="_blank" rel="external">Web Music Developers JP</a>が主催されたイベントで、Webと音楽をテーマにしたハッカソンです。<br>私自身、今年の春に初めてWeb Audio APIを触り、これがWeb Audio APIに関係するコミュニティへの初めての参加でした。<br>当日は実際にmidiキーボードなどの機材も用意され、Web Audio APIだけでなくその他のブラウザ技術も取り入れられた作品はどれも大変刺激的でした。<br>このハッカソンに参加したことで、音声の信号処理や波形のビジュアライズ、音楽をする上での時間の管理などWeb Audio APIの奥深さに触れ、Web Audio APIに特化したコミュニティを作ろうと思った大きなきっかけとなりました。</p>
+<p>そして、WebAudio.tokyoの第1回から2ヶ月後、<a href="https://groups.google.com/forum/#!forum/web-music-developers-jp" target="_blank" rel="external">Web Music Developers JP</a>の代表である河合良哉さんが主催された<a href="https://connpass.com/event/41470/" target="_blank" rel="external">Web Audio API 初心者向けハンズオン</a>にメンターとして参加させていただきました。<br>ここでも<a href="https://groups.google.com/forum/#!forum/web-music-developers-jp" target="_blank" rel="external">Web Music Developers JP</a>の方々にお世話になった他、WebAudio.tokyoの#1, #2共にLTをして頂いたり、<br><a href="https://connpass.com/event/41470/" target="_blank" rel="external">Web Audio API 初心者向けハンズオン</a>からも次回#3にて初心者向けLTとして出て頂いたりと、技術面、運営面共に大きくお世話になっています。</p>
+<h2 id="WebAudio-tokyoとJS勉強会"><a href="#WebAudio-tokyoとJS勉強会" class="headerlink" title="WebAudio.tokyoとJS勉強会"></a>WebAudio.tokyoとJS勉強会</h2><hr>
+<p>Web Audio APIもJavaScriptの技術の一つです。<br>そのため、JSのコミュニティでもWeb Audio APIの話題が上がることがあります。<br>私も<a href="https://meguro.es/2016/12/08/advent-calendar-2016/" target="_blank" rel="external">Meguro.es</a>の運営に携わっており、毎回Web Audio APIの話をしていますが、<br>何回か繰り返して気づいたのがJS勉強会でWeb Audio APIの話をしても内容によってはよくわからない…<br>といった空気になってしまうということです。<br><a href="https://connpass.com/event/41470/" target="_blank" rel="external">Web Audio API 初心者向けハンズオン</a>でも感じたことですが、<br>JSは書けても音声信号処理となると音楽、数学、ちょこっと物理あたりの知識も必要になり始め、専門性はかなり高くなります。</p>
+<p>そこで、私が外のJS勉強会でWeb Audio APIの話をする際には、できるだけ音楽のことも説明するように心がけています。<br>たとえJSっぽい話が少なくなってしまっても、音楽の用語の説明に時間を割くこともあります。<br>幸い、見映え（聴映え？）のいいDEMOができるのがWeb Audio APIの強みでもあるので、<br>説明した音楽がブラウザ上でできればそれだけでWeb Audio APIすごい！ とわかってもらえます。</p>
+<p>そして、こうした勉強会でWeb Audio APIに興味を持ってもらえたら、WebAudio.tokyoに来て濃い話に花を咲かせてもらうといった魂胆です。<br>実際、参加したJS勉強会から参加してもらったり、JS界隈でコミュニティを運営している方にWebAudio.tokyoの運営を助けてもらったりもしています。</p>
+<h2 id="ニッチなジャンルだからこその良さ"><a href="#ニッチなジャンルだからこその良さ" class="headerlink" title="ニッチなジャンルだからこその良さ"></a>ニッチなジャンルだからこその良さ</h2><hr>
+<p>WebAudio.tokyoでは、このように実際に私が足を運んだイベントから来てもらう人が多いです。<br>その他にも、Web Audio APIに関するブログを書いている人にtwitterで連絡を取ることも多いです。<br>JS技術の中でも専門性が高く分野もニッチなので、毎回多くの人が集まるわけではありませんが、懇親会は濃い話で盛り上がります。<br>まだまだ大きく広げられていないので、見知った顔も多く内輪ネタのような話で盛り上がっている節もありますが、<br>やはり既にできているコミュニティから顔を出してくださる方々の話は面白いです。<br>この界隈のコミュニティの数が多くないということもあり、まだ出来たばかりのコミュニティでもWeb Audio APIに強い方と交流できるのはニッチなジャンルの良さなのではないかと思います。</p>
+<h2 id="WebAudio-tokyoとこれから"><a href="#WebAudio-tokyoとこれから" class="headerlink" title="WebAudio.tokyoとこれから"></a>WebAudio.tokyoとこれから</h2><hr>
+<p>JS勉強会で専門性を薄めて話をしても、やはりWebAudio.tokyoがニッチな分野の濃い話をする場所であるという部分は変えたくないです。<br>WebAudio.tokyoがWeb Audio APIの新たな使い道を探る場であるためには、少人数でも深い話ができる場でありたいと思っています。<br>しかし、音楽に興味はあるけれど専門性が高くて手が出せないという層が一定数いるのもまた事実です。<br><a href="https://connpass.com/event/41470/" target="_blank" rel="external">Web Audio API 初心者向けハンズオン</a>のようなイベントには引き続き協力していきたいし、<br>そういった場を用意できるようにもなりたいと思っています。</p>
+<p>そんな中で、WebAudio.tokyo #3では初心者向けLT枠を用意することにしました。<br><a href="https://connpass.com/event/41470/" target="_blank" rel="external">Web Audio API 初心者向けハンズオン</a>の開催から2ヶ月と少し、ここでWeb Audio APIを触り始めた方々が何か出来たものを発表してくださればとても嬉しいです（もちろん、このイベント以外で触り始めた方のご参加もお待ちしております）。</p>
+<p>WebAudio.tokyoの始まりの話ということもあり自分の話が多くなってしまって恐縮ですが、<br>これから勉強会をやってみたい人、始めたばかりの勉強会を運営している人の参考になれば幸いです。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://webaudio.tokyo/2016/12/15/event-management-advent-calendar/" data-id="ciwqfubfm0000x5x8dlzmn1ib" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-webaudio-webmidi-advent-calendar" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -120,7 +174,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://webaudio.tokyo/2016/12/10/webaudio-webmidi-advent-calendar/" data-id="ciwjf0pwx00016wx8oteyaxhc" class="article-share-link">Share</a>
+      <a data-url="https://webaudio.tokyo/2016/12/10/webaudio-webmidi-advent-calendar/" data-id="ciwqfubfs0001x5x849duz4ao" class="article-share-link">Share</a>
       
       
     </footer>
@@ -158,7 +212,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://webaudio.tokyo/2016/10/31/introduction/" data-id="ciwjf0pws00006wx8ddxaez88" class="article-share-link">Share</a>
+      <a data-url="https://webaudio.tokyo/2016/10/31/introduction/" data-id="ciwqfubfu0002x5x8qvijbewm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -183,7 +237,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Arkiv</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">12月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">10月 2016</a></li></ul>
     </div>
@@ -193,9 +247,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Siste innlegg</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/15/event-management-advent-calendar/">WebAudio界隈とWebAudio.tokyo</a>
+          </li>
         
           <li>
             <a href="/2016/12/10/webaudio-webmidi-advent-calendar/">WebAudioの基本機能でエフェクターを作ってみる</a>
